@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C1C5DBEE-8607-4F93-A977-60F62587C6D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E6F3A0EF-9B0E-4FC8-BC5D-C527C6D0423F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{C5645627-73C6-49D4-B3DD-2E54CCF0FF62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F2366639-7263-4244-ACF1-D08D78E6E824}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{433160A6-EBDB-4279-86D9-973B7E3020CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{AE1FE37A-ADBA-4571-8756-0FDC5A7210B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HR_LeaveManagement.Domain", "HR_LeaveManagement.Domain\HR_LeaveManagement.Domain.csproj", "{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5645627-73C6-49D4-B3DD-2E54CCF0FF62} = {C1C5DBEE-8607-4F93-A977-60F62587C6D4}
+		{F2366639-7263-4244-ACF1-D08D78E6E824} = {C1C5DBEE-8607-4F93-A977-60F62587C6D4}
+		{433160A6-EBDB-4279-86D9-973B7E3020CF} = {C1C5DBEE-8607-4F93-A977-60F62587C6D4}
+		{AE1FE37A-ADBA-4571-8756-0FDC5A7210B4} = {C1C5DBEE-8607-4F93-A977-60F62587C6D4}
+		{7F6D4420-4BA5-447E-9D8A-3BBE7C9CD7AE} = {F2366639-7263-4244-ACF1-D08D78E6E824}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B4C62C0-DDEB-4A7B-9DC7-F02ABAC25606}
+	EndGlobalSection
+EndGlobal
