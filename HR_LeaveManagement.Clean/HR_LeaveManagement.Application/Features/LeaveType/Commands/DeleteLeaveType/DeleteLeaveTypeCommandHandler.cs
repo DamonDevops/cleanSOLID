@@ -1,4 +1,5 @@
 ﻿using HR_LeaveManagement.Application.Contracts.Persistence;
+using HR_LeaveManagement.Application.Exceptions;
 using MediatR;
 
 namespace HR_LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeaveType
@@ -17,6 +18,10 @@ namespace HR_LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeave
             var toDelete = await _leaveTypeRepository.GetByIdAsync(request.Id);
 
             //Verify DTO exist
+            if(toDelete == null)
+            {
+                throw new NotFoundException(nameof(LeaveType), request.Id);
+            }
 
             //remove from DB
             await _leaveTypeRepository.DeleteAsync(toDelete);
