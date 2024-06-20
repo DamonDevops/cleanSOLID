@@ -1,37 +1,39 @@
 ﻿using AutoMapper;
 using HR_LeaveManagement.Application.Contracts.Persistence;
+using HR_LeaveManagement.Application.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HR_LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType
+namespace HR_LeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
+
+public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, int>
 {
-    public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeCommand, int>
+    IMapper _mapper;
+    ILeaveTypeRepository _leaveTypeRepository;
+
+    public CreateLeaveTypeCommandHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
     {
-        IMapper _mapper;
-        ILeaveTypeRepository _leaveTypeRepository;
+        _mapper = mapper;
+        _leaveTypeRepository = leaveTypeRepository;
+    }
 
-        public CreateLeaveTypeCommandHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
+    public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
+    {
+        //Validate data
+        var validator = new CreateLeaveTypeCommandValidator(_leaveTypeRepository);
+        var validationResults = await validator.ValidateAsync(request);
+
+        if (validationResults.Errors.Any())
         {
-            _mapper = mapper;
-            _leaveTypeRepository = leaveTypeRepository;
+            throw new BadRequestException("Invalid LeaveType", validationResults);
         }
 
-        public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
-        {
-            //Validate data
+        //Convert to DTO
+        var toCreate = _mapper.Map<Domain.LeaveType>(request);
 
-            //Convert to DTO
-            var toCreate = _mapper.Map<Domain.LeaveType>(request);
+        //Add to DB
+        await _leaveTypeRepository.CreateAsync(toCreate);
 
-            //Add to DB
-            await _leaveTypeRepository.CreateAsync(toCreate);
-
-            //Return record ID
-            return toCreate.Id;
-        }
+        //Return record ID
+        return toCreate.Id;
     }
 }
