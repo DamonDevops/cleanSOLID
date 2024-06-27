@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HR_LeaveManagement.Persistence.Repositories
+namespace HR_LeaveManagement.Persistence.Repositories;
+
+public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveRequestRepository
 {
-    public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveRequestRepository
-    {
-        public LeaveRequestRepository(HrDbContext context) : base(context){
-        }
+    public LeaveRequestRepository(HrDbContext context) : base(context){
     }
 }

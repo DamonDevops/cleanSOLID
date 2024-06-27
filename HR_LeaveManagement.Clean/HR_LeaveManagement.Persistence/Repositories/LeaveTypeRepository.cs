@@ -8,17 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HR_LeaveManagement.Persistence.Repositories
-{
-    public class LeaveTypeRepository : GenericRepository<LeaveType>, ILeaveTypeRepository
-    {
-        public LeaveTypeRepository(HrDbContext context) : base(context)
-        {
-        }
+namespace HR_LeaveManagement.Persistence.Repositories;
 
-        public async Task<bool> IsLeaveTypeUnique(string name)
-        {
-            return await _dbContext.leaveTypes.AnyAsync(x => x.Name == name);
-        }
+public class LeaveTypeRepository : GenericRepository<LeaveType>, ILeaveTypeRepository
+{
+    public LeaveTypeRepository(HrDbContext context) : base(context)
+    {
+    }
+
+    public async Task<bool> IsLeaveTypeUnique(string name)
+    {
+        return await _dbContext.leaveTypes.AnyAsync(x => x.Name == name);
     }
 }
