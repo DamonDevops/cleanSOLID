@@ -6,7 +6,6 @@ namespace HR_LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveR
 
 public class LeaveRequestDetailDTO
 {
-    public int Id { get; set; }
     public DateTime StartingDate { get; set; }
     public DateTime EndingDate { get; set; }
     public LeaveTypeDTO? LeaveType { get; set; }
@@ -17,4 +16,6 @@ public class LeaveRequestDetailDTO
     public bool Cancelled { get; set; }
     public DateTime? DateCreated { get; set; }
     public DateTime? DateModified { get; set; }
+
+    public string RequestingEmployeeId { get; set; } = string.Empty;
 }

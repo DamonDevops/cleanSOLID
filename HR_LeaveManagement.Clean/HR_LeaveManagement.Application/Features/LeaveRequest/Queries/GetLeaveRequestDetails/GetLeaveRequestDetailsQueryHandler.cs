@@ -20,13 +20,7 @@ public class GetLeaveRequestDetailsQueryHandler : IRequestHandler<GetLeaveReques
 
     public async Task<LeaveRequestDetailDTO> Handle(GetLeaveRequestDetailsQuery request, CancellationToken cancellationToken)
     {
-        var leaveRequestDetail = await _leaveRequestRepository.GetByIdAsync(request.id);
-        if(leaveRequestDetail == null)
-        {
-            throw new NotFoundException(nameof(LeaveRequest), request.id);
-        }
-
-        var data = _mapper.Map<LeaveRequestDetailDTO>(leaveRequestDetail);
-        return data;
+        var leaveRequest = _mapper.Map<LeaveRequestDetailDTO>(await _leaveRequestRepository.GetByIdAsync(request.Id));
+        return leaveRequest;
     }
 }
