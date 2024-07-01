@@ -1,6 +1,7 @@
 ﻿using HR_LeaveManagement.Application.Contracts.Persistence;
 using HR_LeaveManagement.Domain;
 using HR_LeaveManagement.Persistence.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,10 @@ public class LeaveAllocationRepository : GenericRepository<LeaveAllocation>, ILe
     public LeaveAllocationRepository(HrDbContext context) : base(context)
     {
 
+    }
+
+    public Task<List<LeaveAllocation>> GetAllocationsWithDetails()
+    {
+        return _dbContext.Set<LeaveAllocation>().ToListAsync();
     }
 }
