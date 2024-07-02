@@ -1,4 +1,5 @@
-﻿using HR_LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
+﻿using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.Shared;
+using HR_LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,16 +9,7 @@ using System.Threading.Tasks;
 
 namespace HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
 
-public class CreateLeaveRequestCommand : IRequest<int>
+public class CreateLeaveRequestCommand : BaseLeaveRequest, IRequest<Unit>
 {
-    public DateTime StartingDate { get; set; }
-    public DateTime EndingDate { get; set; }
-    public LeaveTypeDTO? LeaveType { get; set; }
-    public int LeaveTypeId { get; set; }
-    public DateTime RequestedDate { get; set; }
-    public string? RequestComments { get; set; }
-    public bool? Approved { get; set; }
-    public bool Cancelled { get; set; }
-
-    public string RequestingEmployeeId { get; set; } = string.Empty;
+    public string RequestComments { get; set; } = string.Empty;
 }

@@ -1,4 +1,6 @@
-﻿using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+﻿using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLeaveRequest;
+using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLeaveRequestApproval;
+using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
 using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.DeleteLeaveRequest;
 using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 using HR_LeaveManagement.Application.Features.LeaveRequest.Queries.GetAllLeaveRequests;
@@ -29,7 +31,7 @@ public class LeaveRequestController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<LeaveRequestDetailDTO>> GetById(int id)
     {
-        return Ok(await _mediator.Send(new GetLeaveRequestDetailsQuery(id)));
+        return Ok(await _mediator.Send(new GetLeaveRequestDetailsQuery { Id = id }));
     }
 
     [HttpPost]
@@ -49,6 +51,30 @@ public class LeaveRequestController : ControllerBase
     public async Task<ActionResult> Put(UpdateLeaveRequestCommand updateLeaveRequest)
     {
         await _mediator.Send(updateLeaveRequest);
+        return NoContent();
+    }
+
+    [HttpPut]
+    [Route("CancelRequest")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> Put(CancelLeaveRequestCommand cancelLeaveRequest)
+    {
+        await _mediator.Send(cancelLeaveRequest);
+        return NoContent();
+    }
+
+    [HttpPut]
+    [Route("UpdateApproval")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> Put(ChangeLeaveRequestApprovalCommand changeApprovalLeaveRequest)
+    {
+        await _mediator.Send(changeApprovalLeaveRequest);
         return NoContent();
     }
 

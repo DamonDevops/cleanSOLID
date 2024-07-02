@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using HR_LeaveManagement.Application.Contracts.Persistence;
+using HR_LeaveManagement.Application.Features.LeaveRequest.Commands.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ namespace HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLe
 
 public class CreateLeaveRequestCommandValidator : AbstractValidator<CreateLeaveRequestCommand>
 {
-    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-    public CreateLeaveRequestCommandValidator(ILeaveRequestRepository leaveRequestRepository)
+    public CreateLeaveRequestCommandValidator(ILeaveTypeRepository leaveTypeRepository)
     {
-        _leaveRequestRepository = leaveRequestRepository;
+        _leaveTypeRepository = leaveTypeRepository;
+        Include(new BaseLeaveRequestValidator(_leaveTypeRepository));
     }
 }

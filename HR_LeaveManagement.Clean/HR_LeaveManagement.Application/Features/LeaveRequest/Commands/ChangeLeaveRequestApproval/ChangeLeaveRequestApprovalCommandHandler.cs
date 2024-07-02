@@ -11,27 +11,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HR_LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
+namespace HR_LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLeaveRequestApproval;
 
-public class UpdateLeaveRequestCommandHandler : IRequestHandler<UpdateLeaveRequestCommand, Unit>
+public class ChangeLeaveRequestApprovalCommandHandler : IRequestHandler<ChangeLeaveRequestApprovalCommand, Unit>
 {
     private readonly IMapper _mapper;
     private readonly IEmailSender _emailSender;
+    private readonly IAppLogger<ChangeLeaveRequestApprovalCommandHandler> _logger;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
-    private readonly IAppLogger<UpdateLeaveRequestCommandHandler> _logger;
 
-    public UpdateLeaveRequestCommandHandler(IMapper mapper, IEmailSender emailSender, ILeaveTypeRepository leaveTypeRepository, ILeaveRequestRepository leaveRequestRepository,
-        IAppLogger<UpdateLeaveRequestCommandHandler> logger)
+    public ChangeLeaveRequestApprovalCommandHandler(IMapper mapper, IEmailSender emailSender, IAppLogger<ChangeLeaveRequestApprovalCommandHandler> logger,
+        ILeaveTypeRepository leaveTypeRepository, ILeaveRequestRepository leaveRequestRepository)
     {
         _mapper = mapper;
         _emailSender = emailSender;
+        _logger = logger;
         _leaveTypeRepository = leaveTypeRepository;
         _leaveRequestRepository = leaveRequestRepository;
-        _logger = logger;
     }
 
-    public async Task<Unit> Handle(UpdateLeaveRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ChangeLeaveRequestApprovalCommand request, CancellationToken cancellationToken)
     {
         var leaveRequest = await _leaveRequestRepository.GetByIdAsync(request.Id);
         if(leaveRequest == null)
@@ -39,16 +39,7 @@ public class UpdateLeaveRequestCommandHandler : IRequestHandler<UpdateLeaveReque
             throw new NotFoundException(nameof(LeaveRequest), request.Id);
         }
 
-        var validator = new UpdateLeaveRequestCommandValidator(_leaveTypeRepository, _leaveRequestRepository);
-        var validatorResults = validator.Validate(request);
-
-        if (validatorResults.Errors.Any())
-        {
-            _logger.LogWarning("Validation error in update request {0} - {1}", nameof(LeaveRequest), request.Id);
-            throw new BadRequestException("Invalid LeaveRequest", validatorResults);
-        }
-
-        _mapper.Map(request, leaveRequest);
+        leaveRequest.Approved = request.Approved;
         await _leaveRequestRepository.UpdateAsync(leaveRequest);
 
         try
@@ -56,17 +47,16 @@ public class UpdateLeaveRequestCommandHandler : IRequestHandler<UpdateLeaveReque
             var email = new EmailMessage
             {
                 To = string.Empty,
-                Body = $"Your leave request for {leaveRequest.StartingDate:D} to {leaveRequest.EndingDate:D} has been updated successfully.",
-                Subject = "Leave request Submitted"
+                Body = $"The Approval status of your Leave Request from {leaveRequest.StartingDate:D} to {leaveRequest.EndingDate:D} has been updated",
+                Subject = "Leave Request Approval Status Update"
             };
 
             await _emailSender.SendEmail(email);
-        }
-        catch(Exception e)
+
+        }catch(Exception e) 
         {
             _logger.LogWarning(e.Message);
         }
-        
 
         return Unit.Value;
     }
