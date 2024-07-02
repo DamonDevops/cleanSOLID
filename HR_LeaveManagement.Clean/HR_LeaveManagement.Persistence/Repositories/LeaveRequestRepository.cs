@@ -14,8 +14,10 @@ public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveReq
 {
     public LeaveRequestRepository(HrDbContext context) : base(context){
     }
-    public Task<List<LeaveRequest>> GetLeaveRequestsWithDetails()
+    public async Task<List<LeaveRequest>> GetLeaveRequestsWithDetails()
     {
-        return _dbContext.Set<LeaveRequest>().ToListAsync();
+        return await _dbContext.Set<LeaveRequest>()
+            .Include(q => q.LeaveType)
+            .ToListAsync();
     }
 }

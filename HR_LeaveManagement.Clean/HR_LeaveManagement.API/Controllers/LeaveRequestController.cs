@@ -43,7 +43,7 @@ public class LeaveRequestController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = response });
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

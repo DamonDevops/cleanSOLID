@@ -17,8 +17,10 @@ public class LeaveAllocationRepository : GenericRepository<LeaveAllocation>, ILe
 
     }
 
-    public Task<List<LeaveAllocation>> GetAllocationsWithDetails()
+    public async Task<List<LeaveAllocation>> GetAllocationsWithDetails()
     {
-        return _dbContext.Set<LeaveAllocation>().ToListAsync();
+        return await _dbContext.Set<LeaveAllocation>()
+            .Include(q => q.LeaveType)
+            .ToListAsync();
     }
 }
