@@ -29,7 +29,7 @@ public class UpdateLeaveAllocationCommandHandler : IRequestHandler<UpdateLeaveAl
     public async Task<Unit> Handle(UpdateLeaveAllocationCommand request, CancellationToken cancellationToken)
     {
         var validator = new UpdateLeaveAllocationCommandValidator(_leaveTypeRepository, _leaveAllocationRepository);
-        var validatorResults = validator.Validate(request);
+        var validatorResults = await validator.ValidateAsync(request);
 
         if (validatorResults.Errors.Any())
         {

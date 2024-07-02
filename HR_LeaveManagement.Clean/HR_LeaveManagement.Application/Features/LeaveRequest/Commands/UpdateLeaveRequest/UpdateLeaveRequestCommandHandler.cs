@@ -40,7 +40,7 @@ public class UpdateLeaveRequestCommandHandler : IRequestHandler<UpdateLeaveReque
         }
 
         var validator = new UpdateLeaveRequestCommandValidator(_leaveTypeRepository, _leaveRequestRepository);
-        var validatorResults = validator.Validate(request);
+        var validatorResults = await validator.ValidateAsync(request);
 
         if (validatorResults.Errors.Any())
         {
