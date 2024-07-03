@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using HR_LeaveManagement.Application.Contracts.Logging;
 using HR_LeaveManagement.Application.Contracts.Persistence;
-using HR_LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HR_LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveTypeDetails;
 using HR_LeaveManagement.Application.MappingProfiles;
 using HR_LeaveManagement.Application.UnitTests.Mocks;
@@ -10,13 +8,12 @@ using Shouldly;
 
 namespace HR_LeaveManagement.Application.UnitTests.Features.LeaveTypes.Queries;
 
-public class GetLeaveTypesQueryHandlerTests
+public class GetLeaveTypeDetailsQueryHandlerTest
 {
+    private readonly IMapper _mapper;
     private readonly Mock<ILeaveTypeRepository> _mockRepo;
-    private IMapper _mapper;
-    private Mock<IAppLogger<GetLeaveTypesQueryHandler>> _mockLogger;
 
-    public GetLeaveTypesQueryHandlerTests()
+    public GetLeaveTypeDetailsQueryHandlerTest()
     {
         _mockRepo = MocksLeaveTypeRepository.GetMockLeaveTypesRepository();
 
@@ -27,16 +24,14 @@ public class GetLeaveTypesQueryHandlerTests
         );
 
         _mapper = mapperConfig.CreateMapper();
-        _mockLogger = new Mock<IAppLogger<GetLeaveTypesQueryHandler>>();
     }
 
     [Fact]
-    public async Task GetLeaveTypesTest()
+    public async Task GetLeaveTypeDetailsTest()
     {
-        var handler = new GetLeaveTypesQueryHandler(_mapper, _mockRepo.Object, _mockLogger.Object);
+        var handler = new GetLeaveTypeDetailsQueryHandler(_mapper, _mockRepo.Object);
 
-        var result = await handler.Handle(new GetLeaveTypesQuery(), CancellationToken.None);
-        result.ShouldBeOfType<List<LeaveTypeDTO>>();
-        result.Count.ShouldBe(3);
+        var result = await handler.Handle(new GetLeaveTypeDetailsQuery { Id = 2 }, CancellationToken.None);
+        result.ShouldBeOfType<LeaveTypeDetailDTO>();
     }
 }

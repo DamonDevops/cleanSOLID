@@ -42,6 +42,9 @@ public class MocksLeaveTypeRepository
                 leavetypes.Add(leavetype);
                 return Task.FromResult(leavetype);
             });
+        mockRepo.Setup(r => r.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((int id) => {
+            return leavetypes.FirstOrDefault(lt => lt.Id == id);
+            });
 
         return mockRepo;
     }
