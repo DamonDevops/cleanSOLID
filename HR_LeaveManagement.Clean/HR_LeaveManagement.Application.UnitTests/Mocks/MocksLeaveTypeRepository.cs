@@ -11,7 +11,7 @@ namespace HR_LeaveManagement.Application.UnitTests.Mocks;
 
 public class MocksLeaveTypeRepository
 {
-    public static Mock<ILeaveTypeRepository> GetLeaveTypes()
+    public static Mock<ILeaveTypeRepository> GetMockLeaveTypesRepository()
     {
         var leavetypes = new List<LeaveType>
         {
@@ -40,7 +40,9 @@ public class MocksLeaveTypeRepository
         mockRepo.Setup(r => r.CreateAsync(It.IsAny<LeaveType>()))
             .Returns((LeaveType leavetype) => {
                 leavetypes.Add(leavetype);
-                return Task.CompletedTask;
+                return Task.FromResult(leavetype);
             });
+
+        return mockRepo;
     }
 }
