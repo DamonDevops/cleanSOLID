@@ -29,7 +29,7 @@ public class LeaveTypeController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<LeaveTypeDetailDTO>> GetById(int id)
     {
-        return Ok(await _mediator.Send(new GetLeaveTypeDetailsQuery(id)));
+        return Ok(await _mediator.Send(new GetLeaveTypeDetailsQuery { Id = id }));
     }
 
     [HttpPost]
