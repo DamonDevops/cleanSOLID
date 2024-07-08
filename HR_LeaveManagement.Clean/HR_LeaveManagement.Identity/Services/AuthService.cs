@@ -54,7 +54,7 @@ namespace HR_LeaveManagement.Identity.Services
             {
                 Email = request.Email,
                 FirstName = request.FirstName,
-                Lastname = request.LastName,
+                LastName = request.LastName,
                 UserName = request.Username,
                 EmailConfirmed = true
             };
