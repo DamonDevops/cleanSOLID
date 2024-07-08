@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HR_LeaveManagement.Application.Models.IdentityModels;
 
 namespace HR_LeaveManagement.Application.Contracts.Identity;
 

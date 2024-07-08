@@ -8,5 +8,5 @@ namespace HR_LeaveManagement.Application.Models.IdentityModels;
 
 public class RegistrationResponse
 {
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 }
