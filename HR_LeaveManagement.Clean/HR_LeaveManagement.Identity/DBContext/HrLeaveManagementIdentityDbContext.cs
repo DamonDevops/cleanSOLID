@@ -12,7 +12,7 @@ public class HrLeaveManagementIdentityDbContext : IdentityDbContext<ApplicationU
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(typeof(HrLeaveManagementIdentityDbContext).Assembly);
         base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(typeof(HrLeaveManagementIdentityDbContext).Assembly);
     }
 }
