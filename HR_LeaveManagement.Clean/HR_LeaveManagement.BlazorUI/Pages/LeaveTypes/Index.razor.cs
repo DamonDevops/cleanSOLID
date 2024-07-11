@@ -10,6 +10,8 @@ public partial class Index
     public NavigationManager NavigationManager { get; set; }
     [Inject]
     public ILeaveTypeService LeaveTypeService { get; set; }
+    [Inject]
+    public ILeaveAllocationService LeaveAllocationService { get; set; }
 
     public List<LeaveTypeVM> LeaveTypes { get; private set; }
     public string Message { get; set; } = string.Empty;
@@ -20,8 +22,7 @@ public partial class Index
     }
     protected void AllocateLeaveType(int id)
     {
-        //TODO
-        //Allocation service
+        LeaveAllocationService.CreateLeaveAllocation(id);
     }
     protected void EditLeaveType(int id)
     {

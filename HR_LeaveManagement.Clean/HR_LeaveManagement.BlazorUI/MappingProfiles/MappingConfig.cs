@@ -9,7 +9,18 @@ public class MappingConfig : Profile
     public MappingConfig()
     {
         CreateMap<LeaveTypeDTO, LeaveTypeVM>().ReverseMap();
-        CreateMap<CreateLeaveTypeCommand, LeaveTypeVM>();
-        CreateMap<UpdateLeaveTypeCommand, LeaveTypeVM>();
+        CreateMap<LeaveTypeDetailDTO, LeaveTypeVM>().ReverseMap();
+        CreateMap<CreateLeaveTypeCommand, LeaveTypeVM>().ReverseMap();
+        CreateMap<UpdateLeaveTypeCommand, LeaveTypeVM>().ReverseMap();
+
+        CreateMap<LeaveRequestDTO, LeaveTypeVM>().ReverseMap();
+        CreateMap<LeaveRequestDetailDTO, LeaveTypeVM>().ReverseMap();
+        CreateMap<CreateLeaveRequestCommand, LeaveTypeVM>().ReverseMap();
+        CreateMap<UpdateLeaveRequestCommand, LeaveTypeVM>().ReverseMap();
+
+        CreateMap<LeaveAllocationDTO, LeaveTypeVM>().ReverseMap();
+        CreateMap<LeaveAllocationDetailDTO, LeaveTypeVM>().ReverseMap();
+        CreateMap<CreateLeaveAllocationCommand, LeaveTypeVM>().ReverseMap();
+        CreateMap<UpdateLeaveAllocationCommand, LeaveTypeVM>().ReverseMap();
     }
 }

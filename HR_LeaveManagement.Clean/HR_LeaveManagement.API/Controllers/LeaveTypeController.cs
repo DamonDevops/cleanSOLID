@@ -6,6 +6,8 @@ using HR_LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveTypeDeta
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Security.Claims;
 
 namespace HR_LeaveManagement.API.Controllers;
 

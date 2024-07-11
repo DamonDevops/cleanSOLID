@@ -28,7 +28,7 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
         var savedToken = await _localStorageService.GetItemAsync<string>("token");
         var tokenContent = jwtSecurityTokenHandler.ReadJwtToken(savedToken);
 
-        if (tokenContent.ValidTo < DateTime.Now)
+        if (tokenContent.ValidTo < DateTime.UtcNow)
         {
             await _localStorageService.RemoveItemAsync("token");
             return new AuthenticationState(user);
@@ -46,6 +46,7 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
         var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         var authState = Task.FromResult(new AuthenticationState(user));
         NotifyAuthenticationStateChanged(authState);
+        Console.WriteLine("logged in");
     }
     public async Task LoggedOut()
     {
