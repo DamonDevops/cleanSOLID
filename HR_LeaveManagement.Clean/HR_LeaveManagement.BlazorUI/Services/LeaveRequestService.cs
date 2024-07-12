@@ -20,6 +20,7 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
     {
         try
         {
+            await AddBearerToken();
             var response = new Response<Guid>();
             CreateLeaveRequestCommand command = new()
             {

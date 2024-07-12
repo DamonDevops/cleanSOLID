@@ -6,4 +6,6 @@ public interface IUserService
 {
     Task<List<Employee>> GetEmployees();
     Task<Employee> GetEmployeeById(string userId);
+
+    public string UserId { get; }
 }
