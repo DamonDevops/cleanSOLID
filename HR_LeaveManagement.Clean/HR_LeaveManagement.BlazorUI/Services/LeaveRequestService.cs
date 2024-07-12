@@ -15,9 +15,20 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
         _mapper = mapper;
     }
 
-    public Task ApproveLeaveRequest(int id, bool approved)
+    public async Task ApproveLeaveRequest(int id, bool approved)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var request = new ChangeLeaveRequestApprovalCommand{
+                Id = id,
+                Approved = approved
+            };
+            await _client.UpdateApprovalAsync(request);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
     }
 
     public async Task<Response<Guid>> CreateLeaveRequest(LeaveRequestVM leaveRequestVM)
@@ -62,9 +73,10 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
         return model;
     }
 
-    public Task<LeaveRequestVM> GetLeaveRequest(int id)
+    public async Task<LeaveRequestVM> GetLeaveRequest(int id)
     {
-        throw new NotImplementedException();
+        var leaveRequest = await _client.LeaveRequestGETAsync(id);
+        return _mapper.Map<LeaveRequestVM>(leaveRequest);
     }
 
     public Task<EmployeeLeaveRequestVM> GetUserLeaveRequests()
