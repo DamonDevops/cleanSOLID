@@ -39,7 +39,7 @@ public class CreateLeaveAllocationCommandHandler : IRequestHandler<CreateLeaveAl
         var period = DateTime.UtcNow.Year;
         var allocations = new List<Domain.LeaveAllocation>();
 
-        foreach(var employee in employees)
+        foreach (var employee in employees)
         {
             var alreadyAllocated = await _leaveAllocationRepository.AllocationExists(employee.Id, request.LeaveTypeId, period);
             if (!alreadyAllocated)
@@ -58,7 +58,7 @@ public class CreateLeaveAllocationCommandHandler : IRequestHandler<CreateLeaveAl
         {
             await _leaveAllocationRepository.AddAllocations(allocations);
         }
-        
+
         //var toCreate = _mapper.Map<Domain.LeaveAllocation>(request);
         //await _leaveAllocationRepository.CreateAsync(toCreate);
 

@@ -10,11 +10,9 @@
                     else
                     {
                         <PageTitle>Not Authorized</PageTitle>
-                        <LayoutView Layout="@typeof(MainLayout)">
-                            <div class="alert alert-warning">
-                                <p>You are NOT authorized to access this ressource.</p>
-                            </div>
-                        </LayoutView>
+                        <div class="alert alert-warning">
+                            <p>You are NOT authorized to access this ressource.</p>
+                        </div>
                     }
                 </NotAuthorized>
             </AuthorizeRouteView>
