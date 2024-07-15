@@ -8,12 +8,14 @@ public partial class Detail
 {
     [Inject]
     ILeaveRequestService LeaveRequestService { get; set; }
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public int id { get; set; }
 
-    string ClassName;
-    string HeadingName;
+    string ClassName = string.Empty;
+    string HeadingName = string.Empty;
 
     public LeaveRequestVM LeaveRequestVM { get; set; } = new LeaveRequestVM();
 
@@ -43,5 +45,6 @@ public partial class Detail
     private async Task ChangeApproval(bool approvalStatus)
     {
         await LeaveRequestService.ApproveLeaveRequest(id, approvalStatus);
+        NavigationManager.NavigateTo("/leaverequests/");
     }
 }

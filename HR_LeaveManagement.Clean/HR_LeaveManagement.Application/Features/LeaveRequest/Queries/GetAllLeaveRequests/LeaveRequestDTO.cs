@@ -11,6 +11,7 @@ public class LeaveRequestDTO
     public LeaveTypeDTO? LeaveType { get; set; }
     public DateTime RequestedDate { get; set; }
     public bool? Approved { get; set; }
+    public bool? Cancelled { get; set; }
 
     public Employee Employee { get; set; }
     public string RequestingEmployeeId { get; set; } = string.Empty;

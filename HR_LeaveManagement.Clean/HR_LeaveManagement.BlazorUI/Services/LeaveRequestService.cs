@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
+using HR.LeaveManagement.BlazorUI.Models.LeaveAllocations;
 using HR_LeaveManagement.BlazorUI.Contracts;
 using HR_LeaveManagement.BlazorUI.Models.LeaveRequests;
 using HR_LeaveManagement.BlazorUI.Services.Base;
@@ -15,19 +16,36 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
         _mapper = mapper;
     }
 
-    public async Task ApproveLeaveRequest(int id, bool approved)
+    public async Task<Response<Guid>> ApproveLeaveRequest(int id, bool approved)
     {
         try
         {
+            var response = new Response<Guid>();
             var request = new ChangeLeaveRequestApprovalCommand{
                 Id = id,
                 Approved = approved
             };
             await _client.UpdateApprovalAsync(request);
+            return response;
         }
-        catch (Exception e)
+        catch (ApiException e)
         {
-            throw;
+            return ConvertApiExceptions<Guid>(e);
+        }
+    }
+
+    public async Task<Response<Guid>> CancelLeaveRequest(int id)
+    {
+        try
+        {
+            var response = new Response<Guid>();
+            var request = new CancelLeaveRequestCommand { Id = id };
+            await _client.CancelRequestAsync(request);
+            return response;
+        }
+        catch (ApiException e)
+        {
+            return ConvertApiExceptions<Guid>(e);
         }
     }
 
@@ -79,8 +97,16 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
         return _mapper.Map<LeaveRequestVM>(leaveRequest);
     }
 
-    public Task<EmployeeLeaveRequestVM> GetUserLeaveRequests()
+    public async Task<EmployeeLeaveRequestVM> GetUserLeaveRequests()
     {
-        throw new NotImplementedException();
+        var leaveRequests = await _client.LeaveRequestAllAsync(isLoggedInUser: true);
+        var allocations = await _client.LeaveAllocationAllAsync(isLoggedInUser: true);
+        var model = new EmployeeLeaveRequestVM
+        {
+            LeaveAllocations = _mapper.Map<List<LeaveAllocationVM>>(allocations),
+            LeaveRequests = _mapper.Map<List<LeaveRequestVM>>(leaveRequests)
+        };
+
+        return model;
     }
 }

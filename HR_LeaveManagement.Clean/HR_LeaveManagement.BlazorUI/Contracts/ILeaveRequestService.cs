@@ -10,5 +10,6 @@ public interface ILeaveRequestService
     Task<Response<Guid>> CreateLeaveRequest(LeaveRequestVM leaveRequestVM);
     Task<LeaveRequestVM> GetLeaveRequest(int id);
     Task DeleteLeaveRequest(int id);
-    Task ApproveLeaveRequest(int id, bool approved);
+    Task<Response<Guid>> ApproveLeaveRequest(int id, bool approved);
+    Task<Response<Guid>> CancelLeaveRequest(int id);
 }
