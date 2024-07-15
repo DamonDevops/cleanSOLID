@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using BlazorScheduler
 
 <PageTitle>Index</PageTitle>
 
@@ -8,6 +9,16 @@
 
 <AuthorizeView>
     <Authorized>
+        <Scheduler>
+            <Appointments>
+                @foreach (var app in _appointments)
+                {
+                    <Appointment Start="@app.Start" End="@app.End" Color="@app.Color" Context="appointment">
+                        @app.Title
+                    </Appointment>
+                }
+            </Appointments>
+        </Scheduler>
         <button class="btn btn-danger" @onclick="Logout">Logout</button>
     </Authorized>
     <NotAuthorized>

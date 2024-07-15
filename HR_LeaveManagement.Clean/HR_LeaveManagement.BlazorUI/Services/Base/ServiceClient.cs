@@ -2230,6 +2230,9 @@ namespace HR_LeaveManagement.BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("approved")]
         public bool? Approved { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("cancelled")]
+        public bool? Cancelled { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("employee")]
         public Employee Employee { get; set; }
 

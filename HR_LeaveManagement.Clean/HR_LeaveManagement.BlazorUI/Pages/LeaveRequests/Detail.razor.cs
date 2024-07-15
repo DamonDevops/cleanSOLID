@@ -14,23 +14,22 @@ public partial class Detail
     [Parameter]
     public int id { get; set; }
 
-    string ClassName = string.Empty;
+    LeaveRequestVM LeaveRequestVM = new LeaveRequestVM();
+
+    public string ClassName = string.Empty;
     string HeadingName = string.Empty;
 
-    public LeaveRequestVM LeaveRequestVM { get; set; } = new LeaveRequestVM();
-
-    protected override async Task OnParametersSetAsync()
+    protected async override Task OnParametersSetAsync()
     {
         LeaveRequestVM = await LeaveRequestService.GetLeaveRequest(id);
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        if(LeaveRequestVM.Approved == null)
+        Console.WriteLine($"{LeaveRequestVM.Approved == null}");
+        if (LeaveRequestVM.Approved == null)
         {
             ClassName = "warning";
             HeadingName = "Pending Approval";
+            Console.WriteLine($"OK FOR: {ClassName} & {HeadingName}");
         }
-        else if(LeaveRequestVM.Approved == true)
+        else if (LeaveRequestVM.Approved == true)
         {
             ClassName = "success";
             HeadingName = "Approved";
@@ -40,6 +39,10 @@ public partial class Detail
             ClassName = "danger";
             HeadingName = "Rejected";
         }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        
     }
 
     private async Task ChangeApproval(bool approvalStatus)
