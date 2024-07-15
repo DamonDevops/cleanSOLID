@@ -36,8 +36,6 @@ public class BaseHttpService
         {
             _client.HttpClient.DefaultRequestHeaders.Authorization = 
                 new AuthenticationHeaderValue("Bearer", await _localStorageService.GetItemAsync<string>("token"));
-            Console.WriteLine($"Token is: {await _localStorageService.GetItemAsync<string>("token")}");
         }
-        Console.WriteLine("no token?");
     }
 }

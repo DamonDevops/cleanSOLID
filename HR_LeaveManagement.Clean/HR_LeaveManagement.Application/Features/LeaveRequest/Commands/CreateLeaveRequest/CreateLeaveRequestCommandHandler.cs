@@ -61,6 +61,7 @@ public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveReque
 
         var toCreate = _mapper.Map<Domain.LeaveRequest>(request);
         toCreate.RequestingEmployeeId = employeeId;
+        toCreate.RequestedDate = DateTime.UtcNow;
         await _leaveRequestRepository.CreateAsync(toCreate);
 
         try

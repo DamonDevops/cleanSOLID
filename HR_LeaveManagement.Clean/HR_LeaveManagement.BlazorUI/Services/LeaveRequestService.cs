@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿using AutoMapper;
+using Blazored.LocalStorage;
 using HR_LeaveManagement.BlazorUI.Contracts;
 using HR_LeaveManagement.BlazorUI.Models.LeaveRequests;
 using HR_LeaveManagement.BlazorUI.Services.Base;
@@ -7,20 +8,33 @@ namespace HR_LeaveManagement.BlazorUI.Services;
 
 public class LeaveRequestService : BaseHttpService, ILeaveRequestService
 {
-    public LeaveRequestService(IClient client, ILocalStorageService localStorageService) : base(client, localStorageService)
+    private readonly IMapper _mapper;
+
+    public LeaveRequestService(IMapper mapper, IClient client, ILocalStorageService localStorageService) : base(client, localStorageService)
     {
+        _mapper = mapper;
     }
 
-    public Task ApproveLeaveRequest(int id, bool approved)
+    public async Task ApproveLeaveRequest(int id, bool approved)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var request = new ChangeLeaveRequestApprovalCommand{
+                Id = id,
+                Approved = approved
+            };
+            await _client.UpdateApprovalAsync(request);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
     }
 
     public async Task<Response<Guid>> CreateLeaveRequest(LeaveRequestVM leaveRequestVM)
     {
         try
         {
-            await AddBearerToken();
             var response = new Response<Guid>();
             CreateLeaveRequestCommand command = new()
             {
@@ -44,14 +58,25 @@ public class LeaveRequestService : BaseHttpService, ILeaveRequestService
         throw new NotImplementedException();
     }
 
-    public Task<AdminLeaveRequestVM> GetAdminLeaveRequests()
+    public async Task<AdminLeaveRequestVM> GetAdminLeaveRequests()
     {
-        throw new NotImplementedException();
+        var leaveRequests = await _client.LeaveRequestAllAsync(isLoggedInUser: false);
+
+        var model = new AdminLeaveRequestVM
+        {
+            TotalRequests = leaveRequests.Count,
+            PendingRequests = leaveRequests.Count(q => q.Approved == null),
+            ApprovedRequests = leaveRequests.Count(q => q.Approved == true),
+            RejectedRequests = leaveRequests.Count(q => q.Approved == false),
+            LeaveRequestVMs = _mapper.Map<List<LeaveRequestVM>>(leaveRequests)
+        };
+        return model;
     }
 
-    public Task<LeaveRequestVM> GetLeaveRequest(int id)
+    public async Task<LeaveRequestVM> GetLeaveRequest(int id)
     {
-        throw new NotImplementedException();
+        var leaveRequest = await _client.LeaveRequestGETAsync(id);
+        return _mapper.Map<LeaveRequestVM>(leaveRequest);
     }
 
     public Task<EmployeeLeaveRequestVM> GetUserLeaveRequests()

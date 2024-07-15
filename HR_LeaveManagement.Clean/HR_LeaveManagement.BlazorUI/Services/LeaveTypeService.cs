@@ -16,14 +16,14 @@ public class LeaveTypeService : BaseHttpService, ILeaveTypeService
 
     public async Task<List<LeaveTypeVM>> GetLeavetypes()
     {
-        await AddBearerToken();
+        //await AddBearerToken();
         var leaveTypes = await _client.LeaveTypeAllAsync();
         return _mapper.Map<List<LeaveTypeVM>>(leaveTypes);
     }
 
     public async Task<LeaveTypeVM> GetLeaveTypeById(int id)
     {
-        await AddBearerToken();
+        //await AddBearerToken();
         var leaveType = await _client.LeaveTypeGETAsync(id);
         return _mapper.Map<LeaveTypeVM>(leaveType);
     }
@@ -32,7 +32,7 @@ public class LeaveTypeService : BaseHttpService, ILeaveTypeService
     {
         try
         {
-            await AddBearerToken();
+            //await AddBearerToken();
             var createLeaveTypeCommand = _mapper.Map<CreateLeaveTypeCommand>(leaveTypeVM);
             await _client.LeaveTypePOSTAsync(createLeaveTypeCommand);
             return new Response<Guid>() { Success = true };
@@ -48,7 +48,7 @@ public class LeaveTypeService : BaseHttpService, ILeaveTypeService
     {
         try
         {
-            await AddBearerToken();
+            //await AddBearerToken();
             var updateLeaveTypeCommand = _mapper.Map<UpdateLeaveTypeCommand>(leaveTypeVM);
             await _client.LeaveTypePUTAsync(id.ToString(), updateLeaveTypeCommand);
             return new Response<Guid>() { Success = true };
@@ -63,7 +63,7 @@ public class LeaveTypeService : BaseHttpService, ILeaveTypeService
     {
         try
         {
-            await AddBearerToken();
+            //await AddBearerToken();
             await _client.LeaveTypeDELETEAsync(id);
             return new Response<Guid>() { Success = true };
         }

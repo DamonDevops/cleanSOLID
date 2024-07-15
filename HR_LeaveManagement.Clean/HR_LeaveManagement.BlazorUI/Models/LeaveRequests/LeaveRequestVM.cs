@@ -8,15 +8,15 @@ public class LeaveRequestVM
 {
     public int Id { get; set; }
     [Display(Name = "Date Requested")]
-    public DateTime DateRequested { get; set; }
+    public DateTime RequestedDate { get; set; }
     [Display(Name = "Date Actioned")]
     public DateTime DateActioned { get; set; }
     [Display(Name = "Approval State")]
     public bool? Approved { get; set; }
     public bool Cancelled { get; set; }
 
-    public LeaveTypeVM LeaveType{ get; set; }
-    public EmployeeVM Employee { get; set; }
+    public LeaveTypeVM LeaveType { get; set; } = new LeaveTypeVM();
+    public EmployeeVM Employee { get; set; } = new EmployeeVM();
 
     [Display(Name = "Starting Date")]
     [Required]
