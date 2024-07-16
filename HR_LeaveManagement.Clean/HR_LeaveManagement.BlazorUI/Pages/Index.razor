@@ -1,0 +1,64 @@
+﻿@page "/"
+@using BlazorScheduler
+
+<PageTitle>Index</PageTitle>
+
+<h1 class="text-center">Welcome to HR Leave Management System</h1>
+<br/>
+<br/>
+
+@if (user is not null)
+{
+    <h3>@user.Identity.Name</h3>
+    <div class="m-2 p-2">
+        Is Authenticated: @user.Identity.IsAuthenticated
+    </div>
+    <div class="m-2 p-2">
+        Authentication Type: @user.Identity.AuthenticationType
+    </div>
+    <div class="m-2 p-2">
+        Admin Role: @user.IsInRole("Admin")
+    </div>
+    <div class="m-2 p-2">
+        <h5>Claims</h5>
+        @foreach (var claim in user.Claims)
+        {
+            <span>
+                @claim.Type
+            </span>
+            <span>:</span>
+            <span>
+                @claim.Value
+            </span>
+            <br />
+        }
+    </div>
+}
+else
+{
+    <div class="m-2 p-2">
+        No User Exists
+    </div>
+}
+
+<AuthorizeView>
+    <Authorized>
+        <Scheduler>
+            <Appointments>
+                @foreach (var app in _appointments)
+                {
+                    <Appointment Start="@app.Start" End="@app.End" Color="@app.Color" Context="appointment">
+                        @app.Title
+                    </Appointment>
+                }
+            </Appointments>
+        </Scheduler>
+        <button class="btn btn-danger" @onclick="Logout">Logout</button>
+    </Authorized>
+    <NotAuthorized>
+        <button class="btn btn-success" @onclick="GoToLogin">Login</button>
+        <button class="btn btn-primary" @onclick="GoToRegister">Register</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+

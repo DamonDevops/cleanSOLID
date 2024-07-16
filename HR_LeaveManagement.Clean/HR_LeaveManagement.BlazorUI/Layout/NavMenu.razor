@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">HR_LeaveManagement.BlazorUI</a>
+        <a class="navbar-brand" href="">Leave Management</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -14,16 +14,59 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="leavetypes/">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Leave Types
-            </NavLink>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <br/>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User?.Identity?.Name
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="logout">
+                        <span class="bi bi-escape-nav-menu" aria-hidden="true"></span> Log Out
+                    </NavLink>
+                </div>
+                <br />
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="leavetypes/">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Leave Types
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Employee">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="leaverequests/employeeindex">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Leave Requests
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="Administrator">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="leaverequests/">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Leave Requests
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView>
+            <NotAuthorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="register">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Register
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="login">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Login
+                    </NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
     </nav>
 </div>
 
