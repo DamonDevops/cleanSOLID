@@ -26,6 +26,7 @@ public class LeaveTypeController : ControllerBase
     [HttpGet]
     public async Task<List<LeaveTypeDTO>> Get()
     {
+
         var leaveTypes = await _mediator.Send(new GetLeaveTypesQuery());
         return leaveTypes;
     }

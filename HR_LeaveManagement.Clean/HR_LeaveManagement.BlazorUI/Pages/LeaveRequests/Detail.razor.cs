@@ -22,7 +22,7 @@ public partial class Detail
     protected async override Task OnParametersSetAsync()
     {
         LeaveRequestVM = await LeaveRequestService.GetLeaveRequest(id);
-        Console.WriteLine($"{LeaveRequestVM.Approved == null}");
+        Console.WriteLine($"{LeaveRequestVM.LeaveTypeId}");
         if (LeaveRequestVM.Approved == null)
         {
             ClassName = "warning";
@@ -40,10 +40,10 @@ public partial class Detail
             HeadingName = "Rejected";
         }
     }
-    protected override async Task OnInitializedAsync()
-    {
+    //protected override async Task OnInitializedAsync()
+    //{
         
-    }
+    //}
 
     private async Task ChangeApproval(bool approvalStatus)
     {

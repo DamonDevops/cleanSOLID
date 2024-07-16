@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\LeaveRequests\EmployeeIndex.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="BlazorScheduler" Version="4.3.3" />
@@ -26,17 +22,5 @@
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\LeaveRequests\EmployeeIndex.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\LeaveRequests\EmployeeIndex.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\LeaveRequests\EmployeeIndex.razor" />
-  </ItemGroup>
-
+	
 </Project>

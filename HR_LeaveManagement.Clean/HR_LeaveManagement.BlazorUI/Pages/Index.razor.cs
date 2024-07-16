@@ -16,21 +16,27 @@ public partial class Index
     [Inject]
     private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+    [CascadingParameter] public Task<AuthenticationState> AuthTask { get; set; }
+
+    private System.Security.Claims.ClaimsPrincipal user;
+
     List<AppointmentDto> _appointments = new() 
     {
-        new AppointmentDto { Title = "Open Sourced Date", Start = new DateTime(2021, 7, 9), End = new DateTime(2021, 7, 9), Color = "green" },
-        new AppointmentDto { Title = "Vacation", Start = DateTime.Today.AddDays(4), End = DateTime.Today.AddDays(14), Color = "pink" },
-        new AppointmentDto { Title = "Really busy day 1", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 2", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 3", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 4", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 5", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 6", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
-        new AppointmentDto { Title = "Really busy day 7", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
+        new AppointmentDto { Title = "Congé - Christina", Start = new DateTime(2024, 7, 1), End = new DateTime(2024, 7, 12), Color = "green" },
+        new AppointmentDto { Title = "Férié", Start = DateTime.Today.AddDays(4), End = DateTime.Today.AddDays(4), Color = "pink" },
+        new AppointmentDto { Title = "Congé - Christina", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "green" },
+        new AppointmentDto { Title = "Congé - Damon", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "green" },
+        new AppointmentDto { Title = "Récup - Bruno", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
+        new AppointmentDto { Title = "Récup - Laurent", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
+        new AppointmentDto { Title = "Congé - Christophe", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "green" },
+        new AppointmentDto { Title = "Congé - Phillipe", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "green" },
+        new AppointmentDto { Title = "Récup - Geoffrey", Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(1), Color = "orange" },
     };
 
     protected async override Task OnInitializedAsync()
     {
+        var authState = await AuthTask;
+        this.user = authState.User;
         await ((ApiAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
     }
     protected void GoToLogin() 

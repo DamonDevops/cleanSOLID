@@ -1,4 +1,4 @@
-﻿@page "leaverequests/employeeindex"
+﻿@page "/leaverequests/employeeindex/"
 
 <h1>Leave Request Log</h1>
 <hr />
@@ -33,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in AdminLeaveRequestVM.LeaveRequestVMs)
+        @foreach (var item in EmployeeLeaveRequestVM.LeaveRequests)
         {
             <tr>
                 <td>
