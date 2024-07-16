@@ -15,12 +15,14 @@ namespace HR_LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLe
 public class CancelLeaveRequestCommandHandler : IRequestHandler<CancelLeaveRequestCommand, Unit>
 {
     private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly ILeaveAllocationRepository _leaveAllocationRepository;
     private readonly IEmailSender _emailSender;
     private readonly IAppLogger<CancelLeaveRequestCommandHandler> _logger;
 
-    public CancelLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, IEmailSender emailSender, IAppLogger<CancelLeaveRequestCommandHandler> logger)
+    public CancelLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, ILeaveAllocationRepository leaveAllocationRepository, IEmailSender emailSender, IAppLogger<CancelLeaveRequestCommandHandler> logger)
     {
         _leaveRequestRepository = leaveRequestRepository;
+        _leaveAllocationRepository = leaveAllocationRepository;
         _emailSender = emailSender;
         _logger = logger;
     }
@@ -34,6 +36,16 @@ public class CancelLeaveRequestCommandHandler : IRequestHandler<CancelLeaveReque
         }
 
         toCancel.Cancelled = true;
+        await _leaveRequestRepository.UpdateAsync(toCancel);
+
+        if(toCancel.Approved == true)
+        {
+            int daysRequested = (int)(toCancel.EndingDate - toCancel.StartingDate).TotalDays;
+            var allocation = await _leaveAllocationRepository.GetUserAllocations(toCancel.RequestingEmployeeId, toCancel.LeaveTypeId);
+            allocation.NumberOfDays += daysRequested;
+
+            await _leaveAllocationRepository.UpdateAsync(allocation);
+        }
 
         try
         {
